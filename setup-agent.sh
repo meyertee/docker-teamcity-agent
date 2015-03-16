@@ -15,6 +15,12 @@ while ! exec 6<>/dev/tcp/${TEAMCITY_HOSTNAME}/${TEAMCITY_PORT}; do
     sleep 1
 done
 
+# sleep until the agent download is ready
+until $(curl --output /dev/null --silent --head --fail http://${TEAMCITY_HOSTNAME}:${TEAMCITY_PORT}/update/buildAgent.zip); do
+    printf '.'
+    sleep 5
+done
+
 # sleep some more to let the server initialize
 sleep 10
 
