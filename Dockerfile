@@ -15,11 +15,10 @@ ENV REGISTRY_PORT 5000
 ENV REGISTRY_ADDRESS http://registry:5000
 
 ADD setup-agent.sh /scripts/setup-agent.sh
-RUN apt-get update
-RUN apt-get -y install wget unzip sudo docker.io
+
+RUN apt-get update && apt-get install -y wget unzip sudo docker.io
 RUN adduser teamcity
 RUN echo "DOCKER_OPTS=\"-H=$DOCKER_HOST --insecure-registry $REGISTRY_HOSTNAME:$REGISTRY_PORT\"" >> /etc/default/docker
-
 
 VOLUME /var/lib/docker
 EXPOSE 9090
